@@ -1,16 +1,32 @@
-import { ChainId, Token, Pair, TokenAmount, WETH, Price } from '../src'
+import {ChainId, Token, Pair, TokenAmount, WETH, Price, FACTORY_ADDRESS, INIT_CODE_HASH} from '../src'
+import { getCreate2Address } from '@ethersproject/address'
+import {keccak256, pack} from "@ethersproject/solidity";
 
 describe('Pair', () => {
-  const USDC = new Token(ChainId.MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 18, 'USDC', 'USD Coin')
+  const USDC = new Token(ChainId.BASE_MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 18, 'USDC', 'USD Coin')
   const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'DAI Stablecoin')
 
   describe('constructor', () => {
     it('cannot be used for tokens on different chains', () => {
       expect(() => new Pair(new TokenAmount(USDC, '100'), new TokenAmount(WETH[ChainId.RINKEBY], '100'))).toThrow(
-        'CHAIN_IDS'
+          'CHAIN_IDS'
       )
     })
   })
+
+  describe('getCreate2Address', () => {
+    it('getCreate2Address', () => {
+      //           keccak256(['bytes'], [pack(['address', 'address'], "0xD49dcf2F63885c8E0cc41641AD8f3d6aB08c1DBE", "0x4200000000000000000000000000000000000006")]),
+
+      const address = getCreate2Address(
+          FACTORY_ADDRESS,
+          keccak256(['bytes'], [pack(['address', 'address'], ["0xD49dcf2F63885c8E0cc41641AD8f3d6aB08c1DBE", "0x4200000000000000000000000000000000000006"])]),
+          INIT_CODE_HASH
+      )
+      console.log(address)
+    })
+  })
+
 
   describe('#getAddress', () => {
     it('returns the correct address', () => {

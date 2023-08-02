@@ -28,7 +28,6 @@
     "prepublishOnly": "tsdx build"
   },
   "dependencies": {
-    "@BakeryProject/bakery-swap-core": "npm:@BakerySwap2021/bakery-swap-core@^0.0.1",
     "big.js": "^5.2.2",
     "decimal.js-light": "^2.5.0",
     "jsbi": "^3.1.1",
@@ -44,6 +43,7 @@
     "@ethersproject/solidity": "^5.0.0-beta"
   },
   "devDependencies": {
+    "@BakeryProject/bakery-swap-core": "file:./package/bc-swap-core-0.1.1",
     "@ethersproject/address": "^5.0.2",
     "@ethersproject/contracts": "^5.0.2",
     "@ethersproject/networks": "^5.0.2",
